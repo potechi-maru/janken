@@ -14,15 +14,10 @@ def start
 end
 
 def repeat
-  if @number_of_times == 3 || @number_of_times == 5
-    @number_of_times.times do
-      janken
-    end
-    announcement
-  else # number_of_times == 1
+  @number_of_times.times do
     janken
-    announcement
   end
+  announcement
 end
 
 def janken
@@ -38,29 +33,31 @@ def battle
   @cpu = rand(3) # 0..2どれかランダムに表示
   player = gets.chomp
   @player = press[player] # pressのkeyからval取得
-  if player == "g" || player == "c" || player == "p"
-    puts "CPU…#{jankens[@cpu]}"
-    puts "あなた…#{jankens[@player]}"
-    result
-  else
+  if @player.nil?
     puts "g, c, pから選んでください"
     battle
+    return
   end
-end
-
-def result
+  puts "CPU…#{jankens[@cpu]}"
+  puts "あなた…#{jankens[@player]}"
   if  @cpu == @player
     puts "あいこで…(press g or c or p)"
     battle
-  elsif (@cpu == 1) && (@player == 0) || (@cpu == 2) && (@player == 1) || (@cpu == 0) && (@player == 2)
+    return
+  end
+  result
+end
+
+
+def result
+  if (@cpu == 1) && (@player == 0) || (@cpu == 2) && (@player == 1) || (@cpu == 0) && (@player == 2)
     puts "勝ち！"
     @win += 1
-    puts @results = "#{@win}勝#{@lose}敗"
   else
     puts "負け！"
     @lose += 1
-    puts @results = "#{@win}勝#{@lose}敗"
   end
+  puts @results = "#{@win}勝#{@lose}敗"
 end
 
 def announcement
